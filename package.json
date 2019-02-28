@@ -1,0 +1,14 @@
+{
+  "name": "morse-service",
+  "version": "1.0.0",
+  "description": "the backend for a small webapplication that enables morsing via an arduino that sends json data, which will then be visualized in an front end ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "ITViking",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4"
+  }
+}
