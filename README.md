@@ -12,7 +12,7 @@ Returns an array of JSON data.
 
 ### / POST
 
-Accepts a JSON object containging a property of message ei: {"message": "Hi there..." }
+Accepts a query which would look like this: "HTTP POST /?message=some message you want to send"
 
 ### /messages
 
