@@ -1,9 +1,12 @@
 const express = require('express');
+const http = require('http');
 const app = express();
 const bodyParser = require('body-parser');
 const fs = require('fs');
+const SSE = require('sse');
 const port = 5000;
 let messageCounter = 0;
+let newMessages = [];
 
 app.use(bodyParser.urlencoded({
     extended: true
@@ -14,8 +17,6 @@ app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
     next();
   });
-
-
 
 app.get('/', function(req,res) {
     let dataToSend = [];
@@ -32,8 +33,33 @@ app.get('/', function(req,res) {
 
     res.contentType('application/json; charset=utf-8');
     res.json(dataToSend);
-    res.end();
 });
+
+app.get('/messages', function(req,res) {
+    res.writeHead(200, {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive'
+    });
+
+    setInterval(() => {
+
+            let messageToSend = newMessages.pop();
+            console.log(messageToSend);
+            constructSSE(res, messageToSend);
+
+    },200);
+
+    constructSSE(res, {ip: "192.1312312", message: "what ever for ever"});
+
+    function constructSSE(res, data) {
+        if(data == null || data == undefined){
+            return;
+        }
+        res.write(`data: {"ip": "${ data.ip }", "message": "${ data.message }" }` + '\n\n');
+    };
+
+})
 
 app.post('/', function(req, res) {
     let ip = req.connection.remoteAddress;
@@ -41,7 +67,7 @@ app.post('/', function(req, res) {
         ip
     }
 
-    dataToSave.message = req.body.message;
+    dataToSave.message = req.query.message;
 
     let dataString = JSON.stringify(dataToSave);
 
@@ -55,7 +81,16 @@ app.post('/', function(req, res) {
 
     res.status(200).send('ok');
     res.end();
+
+    newMessages.push(dataToSave);
 });
 
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(port, () => {
+    console.log(`Listening on port ${port}`)
+});
+
+function newMessagesRecieved() {
+    return newMessages;
+}
+
 
