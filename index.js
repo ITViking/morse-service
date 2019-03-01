@@ -43,11 +43,9 @@ app.get('/messages', function(req,res) {
     });
 
     setInterval(() => {
-
             let messageToSend = newMessages.pop();
             console.log(messageToSend);
             constructSSE(res, messageToSend);
-
     },200);
 
     constructSSE(res, {ip: "192.1312312", message: "what ever for ever"});
