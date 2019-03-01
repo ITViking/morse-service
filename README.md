@@ -1,24 +1,24 @@
-#Arduino Morse Service
+# Arduino Morse Service
 
 This is the backend to the that is contacted by this: https://github.com/ITViking/morse-frontend
 
 The backend has a couple of api. It's a very small app.
 
-##The API's
+## The endpoints
 
-###/ GET
+### / GET
 
 Returns an array of JSON data.
 
-###/ POST
+### / POST
 
 Accepts a JSON object containging a property of message ei: {"message": "Hi there..." }
 
-###/messages
+### /messages
 
 SSE endpoint which continually will forward any incoming messages recieved from the "/ POST" endpoint
 
-##How to use
+## How to use
 
 * clone repo
 
