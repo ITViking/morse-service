@@ -19,20 +19,22 @@ app.use(function(req, res, next) {
   });
 
 app.get('/', function(req,res) {
-    let dataToSend = [];
-    let files = [];
+    // let dataToSend = [];
+    // let files = [];
 
-    files = fs.readdirSync('./data');
+    // files = fs.readdirSync('./data');
 
-    files.forEach(file => {
-        let content = fs.readFileSync(__dirname + '/data/' + file, 'utf8');
-        let obj = JSON.parse(content);
-        console.log(obj);
-        dataToSend.push({ip: obj["ip"], message: obj["message"]});
-    });
+    // files.forEach(file => {
+    //     let content = fs.readFileSync(__dirname + '/data/' + file, 'utf8');
+    //     let obj = JSON.parse(content);
+    //     console.log(obj);
+    //     dataToSend.push({ip: obj["ip"], message: obj["message"]});
+    // });
 
-    res.contentType('application/json; charset=utf-8');
-    res.json(dataToSend);
+    // res.contentType('application/json; charset=utf-8');
+    // res.json(dataToSend);
+
+    res.send(200).end();
 });
 
 app.get('/messages', function(req,res) {
@@ -69,13 +71,13 @@ app.post('/', function(req, res) {
 
     let dataString = JSON.stringify(dataToSave);
 
-    fs.writeFile(`./data/${messageCounter}.json`,dataString, function(err) {
-        if(err) {
-            console.log(err);
-        }
-        console.log(`add'ed ${dataString} to file`);
-        messageCounter++;
-    });
+    // fs.writeFile(`./data/${messageCounter}.json`,dataString, function(err) {
+    //     if(err) {
+    //         console.log(err);
+    //     }
+    //     console.log(`add'ed ${dataString} to file`);
+    //     messageCounter++;
+    // });
 
     res.status(200).send('ok');
     res.end();
@@ -86,9 +88,5 @@ app.post('/', function(req, res) {
 app.listen(port, () => {
     console.log(`Listening on port ${port}`)
 });
-
-function newMessagesRecieved() {
-    return newMessages;
-}
 
 
